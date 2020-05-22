@@ -9,7 +9,9 @@ const StudeNTDataReader =require("./StudeNTDataReader");
 const TeacherDataReader = require("./TeacherDataReader");
 
 
-//let _teacherdata = new TeacherDataReader(path.join(__dirname,"Teachers.json"));
+let _teacherdata = new TeacherDataReader(path.join(__dirname,"Teachers.json"));
+let teacher = new Teacher("lucke","parker",23);
+_teacherdata.addteacher(teacher);
 //console.log(_teacherdata.FileArray);
 
 //console.log(_teacherdata.getTeacher("d55b84d1-64be-476b-b697-d6a4371b62f0"));

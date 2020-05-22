@@ -15,23 +15,25 @@ class TeacherDataReader
     {
         this.FileName = FileName;
     }
-    get FileArray()
+    getFileArray()
     {
         return JSON.parse(fs.readFileSync(this.FileName).toString()).map(teacherRaw =>
          new Teacher(teacherRaw.firstName,teacherRaw.lastName,teacherRaw.age,teacherRaw.id)   
         );
     }
-    set FileArray(value)
+
+    saveArraytoFile(teachers)
     {
-        fs.writeFileSync(this.FileName,JSON.stringify(value));
+        fs.writeFileSync(this.FileName,JSON.stringify(teachers));
     }
     getTeacher(id)
     {   
-        return this.FileArray.find(t => t.id == id);
+        return this.getFileArray().find(t => t.id == id);
     }
     updateteacher(teacher)
     {
-        this.FileArray = this.FileArray.map(t => {
+        let teachers = this.getFileArray();
+        let updatedteacher =teachers.map(t => {
             if(t.id == teacher.id)
             {
                 return teacher;
@@ -39,14 +41,19 @@ class TeacherDataReader
                 return t;
             }
         });
+        this.saveArraytoFile(updatedteacher);
     }
     deleteTeacher(id)
     {
-        this.FileArray = this.FileArray.filter(t => t.id != id);
+        let teachers = this.getFileArray();
+        let updatedteachers = teachers.filter(t => t.id != id);
+        this.saveArraytoFile(updatedteachers);
     }
     addteacher(teacher)
     {
-        this.FileArray = this.FileArray.concat([teacher]);
+        let teachers = this.getFileArray();
+        teachers.push(teacher);
+        this.saveArraytoFile(teachers);
     } 
 }
 
